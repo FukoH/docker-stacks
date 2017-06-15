@@ -1,0 +1,9 @@
+{
+  "NotebookApp": {
+    "ip": "*",
+    "port": 8888,
+    "allow_root": true,
+    "open_browser": false,
+    "notebook_dir": "/root"
+  }
+}
