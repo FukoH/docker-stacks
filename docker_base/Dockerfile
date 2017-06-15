@@ -20,7 +20,7 @@ RUN cd /tmp \
   &    conda install -yq `cat ./work/list_conda_install.txt` \
   &    pip install --quiet jupyter_declarativewidgets `cat /tmp/work/list_pip_install.txt` \
   &    wait ) \
-  && conda clean -yqa \
+  && conda clean -ya \
   && echo "Jupyter Notebook Version:" `jupyter notebook --version` \
   && jupyter serverextension enable  --sys-prefix --py declarativewidgets \
   && jupyter nbextension     install --sys-prefix --py declarativewidgets \
