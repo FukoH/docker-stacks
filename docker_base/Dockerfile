@@ -20,13 +20,13 @@ RUN cd /tmp \
   &    conda install -yq `cat /tmp/work/list_conda_install.txt` \
   &    wait ) \
   && conda remove -yq --force readline \
-  && pip install --quiet --no-cache-dir jupyter_declarativewidgets `cat /tmp/work/list_pip_install.txt` \
+  && pip install jupyter_declarativewidgets `cat /tmp/work/list_pip_install.txt` \
   && conda clean -ya \
   && echo "Jupyter Notebook Version:" `jupyter notebook --version` \
   && jupyter serverextension enable  --sys-prefix --py declarativewidgets \
   && jupyter nbextension     install --sys-prefix --py declarativewidgets \
   && jupyter nbextension     enable  --sys-prefix --py declarativewidgets \
-  && ls -A1 | xargs rm -rf && rm -rf /root/.cache && cd \
+  && ( rm -rf /root/.* /tmp/.* /tmp/* || true ) && cd \
   && mkdir -p $HOME_DIR $DATA_DIR $HOME_DIR/share
 
 EXPOSE 8888
