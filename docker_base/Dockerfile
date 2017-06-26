@@ -1,5 +1,5 @@
 # Distributed under the terms of the Modified BSD License.
-FROM intelligencelab/dbrick_ape:latest
+FROM intelligencelab/datascience_ape:latest
 
 LABEL maintainer "haobibo@gmail.com"
 
