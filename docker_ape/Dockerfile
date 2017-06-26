@@ -16,7 +16,7 @@ RUN apt-get update --fix-missing && apt-get -yq dist-upgrade \
  && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
  && apt-get install -yq --no-install-recommends \
     locales tzdata ca-certificates openssh-client libaio1 libav-tools libxrender1 \
-    build-essential cmake gfortran python-dev unzip bzip2 vim git nodejs npm \
+    build-essential cmake gfortran python-dev unzip bzip2 p7zip-full vim git nodejs npm \
  && apt-get autoremove && apt-get clean \
  && rm -rf /var/lib/apt/lists/* \
  && [ -e /usr/bin/node ] || ln -s /usr/bin/nodejs /usr/bin/node \
@@ -33,7 +33,7 @@ RUN apt-get update --fix-missing && apt-get -yq dist-upgrade \
  &    wait ) \
  && /bin/bash $MINICONDA_FILE -f -b -p $CONDA_DIR \
  && conda config --system --set auto_update_conda false \
- && echo "bioconda r defaults conda-forge" | xargs -n1 conda config --system --add channels \
+ && echo "defaults r conda-forge" | xargs -n1 conda config --system --add channels \
  && conda install -qy r-base \
  && conda clean -tipsy \
  && $CONDA_DIR/bin/pip freeze --local | grep -v '^\-e' | cut -d = -f 1 | sed "/conda/d;" | xargs -n1 -P8 pip install -U --quiet --ignore-installed \
