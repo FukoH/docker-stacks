@@ -17,9 +17,9 @@ RUN cd /tmp \
   && mv /tmp/work/start-*.sh /usr/local/bin/ && chmod +x /usr/local/bin/*.sh \
   && conda install -yq jupyter jupyterhub jupyterlab jupyter_nbextensions_configurator jupyter_contrib_nbextensions \
   && ( conda install -yq r-essentials \
-  &    conda install -yq `cat ./work/list_conda_install.txt` \
-  &    pip install --quiet jupyter_declarativewidgets `cat /tmp/work/list_pip_install.txt` \
+  &    conda install -yq `cat /tmp/work/list_conda_install.txt` \
   &    wait ) \
+  && pip install --quiet --no-cache-dir jupyter_declarativewidgets `cat /tmp/work/list_pip_install.txt` \
   && conda clean -ya \
   && echo "Jupyter Notebook Version:" `jupyter notebook --version` \
   && jupyter serverextension enable  --sys-prefix --py declarativewidgets \
