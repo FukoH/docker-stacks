@@ -1,3 +1,4 @@
+scikit-video
 ibm_db
 ibm_db_sa
 sqlalchemy_pytds
