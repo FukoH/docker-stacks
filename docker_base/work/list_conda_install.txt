@@ -20,8 +20,6 @@ bitarray
 numexpr
 bottleneck
 datashape
-py4j
-rpy2
 pandasql
 xlrd
 pyodbc

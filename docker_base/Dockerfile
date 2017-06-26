@@ -19,6 +19,7 @@ RUN cd /tmp \
   && ( conda install -yq r-essentials \
   &    conda install -yq `cat /tmp/work/list_conda_install.txt` \
   &    wait ) \
+  && conda remove -yq --force readline \
   && pip install --quiet --no-cache-dir jupyter_declarativewidgets `cat /tmp/work/list_pip_install.txt` \
   && conda clean -ya \
   && echo "Jupyter Notebook Version:" `jupyter notebook --version` \
