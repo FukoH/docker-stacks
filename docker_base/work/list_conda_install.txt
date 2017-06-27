@@ -6,6 +6,7 @@ statsmodels
 pywavelets
 patsy
 sympy
+rpy2
 tensorflow
 theano
 keras
