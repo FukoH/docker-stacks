@@ -18,7 +18,7 @@ RUN cd /tmp \
   && conda install -yq jupyter_nbextensions_configurator jupyter_contrib_nbextensions \
   && conda install -yq r-essentials `cat /tmp/work/list_conda_install.txt` \
   && conda clean -ya \
-  && pip install jupyter_declarativewidgets `cat /tmp/work/list_pip_install.txt` \
+  && pip install -U jupyter_declarativewidgets `cat /tmp/work/list_pip_install.txt` \
   && jupyter serverextension enable  --sys-prefix --py declarativewidgets \
   && jupyter nbextension     install --sys-prefix --py declarativewidgets \
   && jupyter nbextension     enable  --sys-prefix --py declarativewidgets \

@@ -36,6 +36,7 @@ dill
 blaze
 seaborn
 vincent
+ipywidgets
 ipyparallel
 cython
 future
