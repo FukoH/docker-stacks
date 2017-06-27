@@ -1,5 +1,5 @@
 # Distributed under the terms of the Modified BSD License.
-FROM debian:latest
+FROM debian:stretch
 
 LABEL maintainer "haobibo@gmail.com"
 
@@ -11,7 +11,9 @@ ENV SHELL=/bin/bash \
     PATH=/opt/conda/bin:$PATH
 
 # Install all OS dependencies, conda, Python (3 only), R, and NodeJS (and bower)
-RUN apt-get update --fix-missing && apt-get -yq dist-upgrade \
+RUN REPO=http://cdn-fastly.deb.debian.org \
+ && echo "deb $REPO/debian stretch main\ndeb $REPO/debian-security stretch/updates main" > /etc/apt/sources.list \
+ && apt-get update --fix-missing && apt-get -yq dist-upgrade \
  && apt-get install -yq --no-install-recommends apt-utils wget curl \
  && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
  && apt-get install -yq --no-install-recommends \
