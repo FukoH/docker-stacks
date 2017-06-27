@@ -12,13 +12,13 @@ ENV SHELL=/bin/bash \
 
 # Install all OS dependencies, conda, Python (3 only), R, and NodeJS (and bower)
 RUN apt-get update --fix-missing && apt-get -yq dist-upgrade \
- && apt-get install -yq --no-install-recommends apt-utils wget curl sudo \
+ && apt-get install -yq --no-install-recommends apt-utils wget curl \
  && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
  && apt-get install -yq --no-install-recommends \
-    locales tzdata ca-certificates openssh-client libaio1 libav-tools libxrender1 libreadline-dev \
-    build-essential cmake gfortran python-dev unzip bzip2 p7zip-full vim git nodejs npm \
- && apt-get autoremove && apt-get clean \
- && rm -rf /var/lib/apt/lists/* \
+    sudo locales tzdata ca-certificates openssh-client bzip2 unzip p7zip-full \
+    build-essential cmake gfortran python-dev vim git nodejs \
+    libaio1 libav-tools libxrender1 \
+ && apt-get autoremove && apt-get clean && rm -rf /var/lib/apt/lists/* \
  && [ -e /usr/bin/node ] || ln -s /usr/bin/nodejs /usr/bin/node \
  && cd /tmp \
  && MINICONDA_FILE="Miniconda3-latest-Linux-`arch`.sh" \
@@ -29,21 +29,23 @@ RUN apt-get update --fix-missing && apt-get -yq dist-upgrade \
  && /bin/bash /tmp/$MINICONDA_FILE -f -b -p $CONDA_DIR \
  && $CONDA_DIR/bin/pip freeze --local | grep -v '^\-e' | cut -d = -f 1 | sed "/conda/d;" | xargs -n1 -P8 pip install -U --quiet --ignore-installed \
  && conda config --system --set auto_update_conda false \
- && echo "defaults r conda-forge" | xargs -n1 conda config --system --add channels \
+ && echo "r conda-forge defaults" | xargs -n1 conda config --system --add channels \
  && conda install -yq jupyter jupyterhub jupyterlab r-base \
  && conda clean -ya \
  && unzip -q tini.zip && cd tini* && cmake . && make install \
  && mv ./tini /usr/local/bin/tini && chmod +x /usr/local/bin/tini \
  && mv /root/.bashrc /etc/bash_profile \
  && echo "[ \$BASH ] && [ -f /etc/bash_profile ] && . /etc/bash_profile" >> /etc/bash.bashrc \
+ && echo "ALL            ALL = (ALL) NOPASSWD: ALL" >> /etc/sudoers \
  && echo "LANGUAGE=en_US.UTF-8" >> /etc/default/locale \
  && echo "LC_ALL=en_US.UTF-8"   >> /etc/default/locale \
  && echo "LC_TYPE=en_US.UTF-8"  >> /etc/default/locale \
  && echo "en_US.UTF-8 UTF-8"     > /etc/locale.gen && locale-gen \
- && echo "ALL            ALL = (ALL) NOPASSWD: ALL" >> /etc/sudoers \
+ && echo "DataScienceX"          > /etc/hostname \
  && ( rm -rf /root/.* /tmp/.* /tmp/* || true ) && cd \
- && echo "Jupyter Notebook Version:" `jupyter notebook --version` \
- && echo "R Version Information:" `R --version` \
+ && echo "Version of Jupyter Notebook:" `jupyter notebook --version` \
+ && echo "Version of R:" `R --version` \
+ && echo "Version of Node and NPM:" `node -v` `npm -v` \
  && echo "Conda Information:" `conda info`
 
 ENTRYPOINT ["tini", "--"]
