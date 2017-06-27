@@ -18,7 +18,7 @@ RUN REPO=http://cdn-fastly.deb.debian.org \
  && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
  && apt-get install -yq --no-install-recommends \
     sudo locales tzdata ca-certificates openssh-client bzip2 unzip p7zip-full \
-    build-essential cmake gfortran python-dev vim git nodejs \
+    build-essential cmake gfortran python-dev libssl-dev vim git nodejs \
     libaio1 libav-tools libxrender1 \
  && apt-get autoremove && apt-get clean && rm -rf /var/lib/apt/lists/* \
  && [ -e /usr/bin/node ] || ln -s /usr/bin/nodejs /usr/bin/node \
@@ -30,7 +30,7 @@ RUN REPO=http://cdn-fastly.deb.debian.org \
  &    wget --quiet https://github.com/krallin/tini/archive/v0.14.0.zip -O tini.zip \
  &    wait ) \
  && /bin/bash /tmp/$MINICONDA_FILE -f -b -p $CONDA_DIR \
- && $CONDA_DIR/bin/pip freeze --local | grep -v '^\-e' | cut -d = -f 1 | sed "/conda/d;" | xargs -n1 -P8 pip install -U --quiet --ignore-installed \
+ && pip install -U --quiet --ignore-installed `$CONDA_DIR/bin/pip freeze --local | grep -v '^\-e' | cut -d = -f 1 | sed "/conda/d;"` \
  && conda config --system --set auto_update_conda false \
  && echo "r conda-forge defaults" | xargs -n1 conda config --system --add channels \
  && conda install -yq jupyter jupyterhub jupyterlab r-base \
