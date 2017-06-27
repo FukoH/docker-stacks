@@ -16,19 +16,16 @@ RUN cd /tmp \
   && mv /tmp/work/jupyter_notebook_config.json $CONDA_DIR/etc/jupyter/ \
   && mv /tmp/work/start-*.sh /usr/local/bin/ && chmod +x /usr/local/bin/*.sh \
   && conda install -yq jupyter jupyterhub jupyterlab jupyter_nbextensions_configurator jupyter_contrib_nbextensions \
-  && ( conda install -yq r-essentials \
-  &    conda install -yq `cat /tmp/work/list_conda_install.txt` \
-  &    wait ) \
-  && conda remove -yq --force readline \
-  && pip install jupyter_declarativewidgets `cat /tmp/work/list_pip_install.txt` \
-  && conda clean -ya \
   && echo "Jupyter Notebook Version:" `jupyter notebook --version` \
+  && conda install -yq r-essentials `cat /tmp/work/list_conda_install.txt` \
   && echo "R Version Information:" `R --version` \
+  && conda clean -ya \
+  && pip install jupyter_declarativewidgets `cat /tmp/work/list_pip_install.txt` \
   && jupyter serverextension enable  --sys-prefix --py declarativewidgets \
   && jupyter nbextension     install --sys-prefix --py declarativewidgets \
   && jupyter nbextension     enable  --sys-prefix --py declarativewidgets \
   && ( rm -rf /root/.* /tmp/.* /tmp/* || true ) && cd \
-  && mkdir -p $HOME_DIR $DATA_DIR $HOME_DIR/share
+  && mkdir -p $HOME_DIR $DATA_DIR
 
 EXPOSE 8888
 WORKDIR $HOME_DIR
