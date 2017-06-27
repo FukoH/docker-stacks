@@ -18,7 +18,7 @@ RUN REPO=http://cdn-fastly.deb.debian.org \
  && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
  && apt-get install -yq --no-install-recommends \
     sudo locales tzdata ca-certificates openssh-client bzip2 unzip p7zip-full \
-    build-essential cmake gfortran python-dev vim git nodejs \
+    build-essential cmake gfortran python-dev vim git nodejs npm \
     libaio1 libav-tools libxrender1 \
  && apt-get autoremove && apt-get clean && rm -rf /var/lib/apt/lists/* \
  && [ -e /usr/bin/node ] || ln -s /usr/bin/nodejs /usr/bin/node \
