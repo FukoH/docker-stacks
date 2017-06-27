@@ -2,22 +2,15 @@
 
 set -e
 
-if pgrep -x "jupyterhub-singleuser" > /dev/null;then
-    echo "JupyterHub SingleUser is already running..."
-    exit
-fi
-
 vergte() {
     [ "$2" = "`echo -e "$1\n$2" | sort -V | head -n1`" ]
 }
 
+(pgrep -x "jupyterhub-singleuser" > /dev/null) || (echo "JupyterHub SingleUser is already running..." && exit)
+
 notebook_arg=""
-if ( vergte `jupyter notebook --version` 5.0.0 );then
-    notebook_arg="${notebook_arg} --allow-root"
-fi
-if [ -n "${NOTEBOOK_DIR:+x}" ];then
-    notebook_arg="${notebook_arg} --notebook-dir=${NOTEBOOK_DIR}"
-fi
+( vergte `jupyter notebook --version` 5.0.0 ) && notebook_arg="${notebook_arg} --allow-root"
+[ -n "${NOTEBOOK_DIR:+x}" ];then && notebook_arg="${notebook_arg} --notebook-dir=${NOTEBOOK_DIR}"
 
 # Generate a SSH id for git if it does not exist.
 [ -e ~/.ssh/id_rsa.pub ] || ssh-keygen -t rsa -b 4096 -N "" -C `hostname` -f ~/.ssh/id_rsa
