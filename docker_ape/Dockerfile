@@ -26,14 +26,14 @@ RUN apt-get update --fix-missing && apt-get -yq dist-upgrade \
  &    wget --quiet "https://repo.continuum.io/miniconda/$MINICONDA_FILE" \
  &    wget --quiet https://github.com/krallin/tini/archive/v0.14.0.zip -O tini.zip \
  &    wait ) \
- && unzip -q tini.zip && cd tini* && cmake . && make install \
- && mv ./tini /usr/local/bin/tini && chmod +x /usr/local/bin/tini \
- && /bin/bash $MINICONDA_FILE -f -b -p $CONDA_DIR \
+ && /bin/bash /tmp/$MINICONDA_FILE -f -b -p $CONDA_DIR \
  && $CONDA_DIR/bin/pip freeze --local | grep -v '^\-e' | cut -d = -f 1 | sed "/conda/d;" | xargs -n1 -P8 pip install -U --quiet --ignore-installed \
  && conda config --system --set auto_update_conda false \
  && echo "defaults r conda-forge" | xargs -n1 conda config --system --add channels \
  && conda install -yq jupyter jupyterhub jupyterlab r-base \
  && conda clean -ya \
+ && unzip -q tini.zip && cd tini* && cmake . && make install \
+ && mv ./tini /usr/local/bin/tini && chmod +x /usr/local/bin/tini \
  && mv /root/.bashrc /etc/bash_profile \
  && echo "[ \$BASH ] && [ -f /etc/bash_profile ] && . /etc/bash_profile" >> /etc/bash.bashrc \
  && echo "LANGUAGE=en_US.UTF-8" >> /etc/default/locale \
