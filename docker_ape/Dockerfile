@@ -1,5 +1,5 @@
 # Distributed under the terms of the Modified BSD License.
-FROM ubuntu:latest
+FROM debian:latest
 
 LABEL maintainer "haobibo@gmail.com"
 
