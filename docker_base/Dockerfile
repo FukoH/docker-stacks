@@ -23,6 +23,7 @@ RUN cd /tmp \
   && pip install jupyter_declarativewidgets `cat /tmp/work/list_pip_install.txt` \
   && conda clean -ya \
   && echo "Jupyter Notebook Version:" `jupyter notebook --version` \
+  && echo "R Version Information:" `R --version` \
   && jupyter serverextension enable  --sys-prefix --py declarativewidgets \
   && jupyter nbextension     install --sys-prefix --py declarativewidgets \
   && jupyter nbextension     enable  --sys-prefix --py declarativewidgets \
