@@ -3,6 +3,7 @@ scikit-image
 scikit-bio
 opencv==3.2.0
 statsmodels
+pywavelets
 patsy
 sympy
 tensorflow
@@ -10,6 +11,7 @@ theano
 keras
 lxml
 beautifulsoup4
+html5lib
 markdown
 numpydoc
 sphinx
@@ -39,6 +41,5 @@ future
 backports
 backports_abc
 contextlib2
-argparse
 cytoolz
 astroid
