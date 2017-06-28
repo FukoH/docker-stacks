@@ -8,20 +8,22 @@ USER root
 ENV SHELL=/bin/bash \
     DEBIAN_FRONTEND=noninteractive \
     CONDA_DIR=/opt/conda \
-    PATH=/opt/conda/bin:$PATH
+    PATH=/opt/conda/bin:$PATH \
+    HOME_DIR=/root \
+    DATA_DIR=/data
 
 COPY work /tmp/work/
 
 # Install all OS dependencies, Python (Miniconda3), R, and NodeJS
-RUN cd /tmp \
+RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR \
  && echo "deb http://cdn-fastly.deb.debian.org/debian stretch main"                   > /etc/apt/sources.list \
  && echo "deb http://cdn-fastly.deb.debian.org/debian-security stretch/updates main" >> /etc/apt/sources.list \
  && apt-get update --fix-missing && apt-get -yq dist-upgrade \
- && apt-get install -yq --no-install-recommends lsb-release gnupg apt-utils apt-transport-https ca-certificates wget curl \
- && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
+ && apt-get install -yq --no-install-recommends lsb-release gnupg apt-utils apt-transport-https ca-certificates wget \
+ && wget -qO- "https://deb.nodesource.com/setup_8.x" | bash - \
  && apt-get install -yq --no-install-recommends \
     sudo locales build-essential cmake gfortran python3-dev \
-    htop unzip p7zip-full vim git nodejs \
+    htop curl unzip p7zip-full vim git nodejs \
     libssl-dev libffi-dev libaio1 libav-tools libxrender1 \
  && apt-get autoremove && apt-get clean && rm -rf /var/lib/apt/lists/* \
  && echo "ALL            ALL = (ALL) NOPASSWD: ALL" >> /etc/sudoers \
@@ -39,6 +41,7 @@ RUN cd /tmp \
  && pip install -U --quiet --ignore-installed `$CONDA_DIR/bin/pip freeze --local | grep -v '^\-e' | cut -d = -f 1 | sed "/conda/d;"` \
  && pip install -U --quiet --ignore-installed notebook jupyterhub jupyterlab \
  && mv /tmp/work/start-*.sh /usr/local/bin/ && chmod +x /usr/local/bin/*.sh \
+ && mv /tmp/work/jupyter_notebook_config.json $CONDA_DIR/etc/jupyter/ \
  && echo "#Version of Jupyter Notebook, JupyterHub, JupyterLab:" `jupyter notebook --version` `jupyterhub --version` `jupyter lab --version` \
  && echo "r conda-forge defaults" | xargs -n1 conda config --system --add channels \
  && conda config --system --set auto_update_conda false \
@@ -53,4 +56,9 @@ RUN cd /tmp \
  && echo "[ \$BASH ] && [ -f /root/.bashrc ] && . /root/.bashrc"         >> /etc/bash.bashrc \
  && ( rm -rf /root/.* /tmp/.* /tmp/* || true ) && cd
 
+EXPOSE 8888
+WORKDIR $HOME_DIR
 ENTRYPOINT ["tini", "--"]
+
+# Configure container startup
+CMD ["sh", "/usr/local/bin/start-singleuser.sh"]

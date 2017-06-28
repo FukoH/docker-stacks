@@ -5,15 +5,10 @@ LABEL maintainer "haobibo@gmail.com"
 
 USER root
 
-ENV HOME_DIR=/root \
-    DATA_DIR=/data
-
 COPY work /tmp/work/
 
 # Install data science enviroment: Jupyter Notebook, Python/R packages
-RUN  mkdir -p $HOME_DIR $DATA_DIR && cd /tmp \
-  && mkdir -p $CONDA_DIR/etc/jupyter/ \
-  && mv /tmp/work/jupyter_notebook_config.json $CONDA_DIR/etc/jupyter/ \
+RUN  cd /tmp && mkdir -p $CONDA_DIR/etc/jupyter/ \
   && conda install -yq jupyter_nbextensions_configurator jupyter_contrib_nbextensions \
   && conda install -yq r-essentials `cat /tmp/work/list_conda_install.txt` \
   && conda clean -ya \
@@ -24,8 +19,3 @@ RUN  mkdir -p $HOME_DIR $DATA_DIR && cd /tmp \
   && ( rm -rf /root/.* /tmp/.* /tmp/* || true ) && cd \
   && echo "Conda Information:" `conda info` `conda list`
 
-EXPOSE 8888
-WORKDIR $HOME_DIR
-
-# Configure container startup
-CMD ["sh", "/usr/local/bin/start-singleuser.sh"]
