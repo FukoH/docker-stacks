@@ -36,7 +36,6 @@ RUN cd /tmp \
  &    wget --quiet "https://github.com/krallin/tini/archive/v0.14.0.zip" -O tini.zip \
  &    wait ) \
  && /bin/bash /tmp/$MINICONDA_FILE -f -b -p $CONDA_DIR \
- && pip install -U --quiet --ignore-installed `$CONDA_DIR/bin/pip freeze --local | grep -v '^\-e' | cut -d = -f 1 | sed "/conda/d;"` \
  && pip install -U --quiet notebook jupyterhub jupyterlab \
  && mv /tmp/work/start-*.sh /usr/local/bin/ && chmod +x /usr/local/bin/*.sh \
  && echo "#Version of Jupyter Notebook, JupyterHub, JupyterLab:" `jupyter notebook --version` `jupyterhub --version` `jupyter lab --version` \
@@ -48,7 +47,9 @@ RUN cd /tmp \
  && echo "#Conda Information:" `conda info` `conda list` \
  && unzip -q tini.zip && cd tini* && cmake . && make install \
  && mv ./tini /usr/local/bin/tini && chmod +x /usr/local/bin/tini \
- && mv /root/.bashrc /etc/bash_profile && echo "[ \$BASH ] && [ -f /etc/bash_profile ] && . /etc/bash_profile" >> /etc/bash.bashrc \
+ && mv /root/.bashrc /etc/bash_profile \
+ && echo "[ \$BASH ] && [ -f /etc/bash_profile ] && . /etc/bash_profile" >> /etc/bash.bashrc \
+ && echo "[ \$BASH ] && [ -f /root/.bashrc ] && . /root/.bashrc"         >> /etc/bash.bashrc \
  && ( rm -rf /root/.* /tmp/.* /tmp/* || true ) && cd
 
 ENTRYPOINT ["tini", "--"]
