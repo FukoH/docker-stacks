@@ -22,7 +22,7 @@ RUN cd /tmp \
  && apt-get install -yq --no-install-recommends \
     sudo locales build-essential cmake gfortran \
     unzip p7zip-full vim git nodejs \
-    libssl-dev libaio1 libav-tools libxrender1 \
+    libssl-dev libffi-dev libaio1 libav-tools libxrender1 \
  && apt-get autoremove && apt-get clean && rm -rf /var/lib/apt/lists/* \
  && echo "ALL            ALL = (ALL) NOPASSWD: ALL" >> /etc/sudoers \
  && echo "LANGUAGE=en_US.UTF-8" >> /etc/default/locale \
