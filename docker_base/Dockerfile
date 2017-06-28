@@ -11,7 +11,7 @@ ENV HOME_DIR=/root \
 COPY work /tmp/work/
 
 # Install data science enviroment: Jupyter Notebook, Python/R packages
-RUN cd /tmp \
+RUN  mkdir -p $HOME_DIR $DATA_DIR && cd /tmp \
   && mkdir -p $CONDA_DIR/etc/jupyter/ \
   && mv /tmp/work/jupyter_notebook_config.json $CONDA_DIR/etc/jupyter/ \
   && conda install -yq jupyter_nbextensions_configurator jupyter_contrib_nbextensions \
@@ -22,7 +22,7 @@ RUN cd /tmp \
   && jupyter nbextension     install --sys-prefix --py declarativewidgets \
   && jupyter nbextension     enable  --sys-prefix --py declarativewidgets \
   && ( rm -rf /root/.* /tmp/.* /tmp/* || true ) && cd \
-  && mkdir -p $HOME_DIR $DATA_DIR
+  && echo "Conda Information:" `conda info` `conda list`
 
 EXPOSE 8888
 WORKDIR $HOME_DIR
