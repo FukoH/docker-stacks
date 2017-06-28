@@ -12,21 +12,24 @@ ENV SHELL=/bin/bash \
 
 COPY work /tmp/work/
 
-# Install all OS dependencies, conda, Python (3 only), R, and NodeJS (and bower)
-RUN REPO=http://cdn-fastly.deb.debian.org \
- && echo "deb $REPO/debian stretch main\ndeb $REPO/debian-security stretch/updates main" > /etc/apt/sources.list \
+# Install all OS dependencies, Python (Miniconda3), R, and NodeJS
+RUN cd /tmp \
+ && echo "deb http://cdn-fastly.deb.debian.org/debian stretch main"                   > /etc/apt/sources.list \
+ && echo "deb http://cdn-fastly.deb.debian.org/debian-security stretch/updates main" >> /etc/apt/sources.list \
  && apt-get update --fix-missing && apt-get -yq dist-upgrade \
- && apt-get install -yq --no-install-recommends apt-utils wget curl \
+ && apt-get install -yq --no-install-recommends lsb-release gnupg apt-utils apt-transport-https ca-certificates wget curl \
  && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
  && apt-get install -yq --no-install-recommends \
-    sudo locales tzdata ca-certificates openssh-client bzip2 unzip p7zip-full \
-    build-essential cmake gfortran python-dev libssl-dev vim git nodejs \
-    libaio1 libav-tools libxrender1 \
+    sudo locales build-essential cmake gfortran \
+    unzip p7zip-full vim git nodejs \
+    libssl-dev libaio1 libav-tools libxrender1 \
  && apt-get autoremove && apt-get clean && rm -rf /var/lib/apt/lists/* \
- && [ -e /usr/bin/node ] || ln -s /usr/bin/nodejs /usr/bin/node \
- && [ -e /usr/bin/npm  ] || ln -s /usr/local/bin/npm /usr/bin/npm \
+ && echo "ALL            ALL = (ALL) NOPASSWD: ALL" >> /etc/sudoers \
+ && echo "LANGUAGE=en_US.UTF-8" >> /etc/default/locale \
+ && echo "LC_ALL=en_US.UTF-8"   >> /etc/default/locale \
+ && echo "LC_TYPE=en_US.UTF-8"  >> /etc/default/locale \
+ && echo "en_US.UTF-8 UTF-8"     > /etc/locale.gen && locale-gen \
  && echo "#Version of Node and NPM:" `node -v` `npm -v` \
- && cd /tmp \
  && MINICONDA_FILE="Miniconda3-latest-Linux-`arch`.sh" \
  && ( npm install -g bower \
  &    wget --quiet "https://repo.continuum.io/miniconda/$MINICONDA_FILE" \
@@ -46,11 +49,6 @@ RUN REPO=http://cdn-fastly.deb.debian.org \
  && unzip -q tini.zip && cd tini* && cmake . && make install \
  && mv ./tini /usr/local/bin/tini && chmod +x /usr/local/bin/tini \
  && mv /root/.bashrc /etc/bash_profile && echo "[ \$BASH ] && [ -f /etc/bash_profile ] && . /etc/bash_profile" >> /etc/bash.bashrc \
- && echo "ALL            ALL = (ALL) NOPASSWD: ALL" >> /etc/sudoers \
- && echo "LANGUAGE=en_US.UTF-8" >> /etc/default/locale \
- && echo "LC_ALL=en_US.UTF-8"   >> /etc/default/locale \
- && echo "LC_TYPE=en_US.UTF-8"  >> /etc/default/locale \
- && echo "en_US.UTF-8 UTF-8"     > /etc/locale.gen && locale-gen \
  && ( rm -rf /root/.* /tmp/.* /tmp/* || true ) && cd
 
 ENTRYPOINT ["tini", "--"]
