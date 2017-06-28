@@ -49,7 +49,7 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR $CONDA_DIR/etc/jupyter/ \
  && conda config --system --add channels "conda-forge" \
  && conda config --system --set auto_update_conda false \
  && conda clean -ya \
- && echo "#Conda Information:" `conda info` `conda list` \
+ && echo "@ Conda Information:" `conda info` `conda list` \
  && unzip -q tini.zip && cd tini* && cmake . && make install \
  && mv ./tini /usr/local/bin/tini && chmod +x /usr/local/bin/tini \
  && mv /root/.bashrc /etc/bash_profile \
