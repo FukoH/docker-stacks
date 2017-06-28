@@ -15,7 +15,7 @@ ENV SHELL=/bin/bash \
 COPY work /tmp/work/
 
 # Install all OS dependencies, Python (Miniconda3), R, and NodeJS
-RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR \
+RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR $CONDA_DIR/etc/jupyter/ \
  && echo "deb http://cdn-fastly.deb.debian.org/debian stretch main"                   > /etc/apt/sources.list \
  && echo "deb http://cdn-fastly.deb.debian.org/debian-security stretch/updates main" >> /etc/apt/sources.list \
  && apt-get update --fix-missing && apt-get -yq dist-upgrade \
@@ -43,7 +43,7 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR \
  && mv /tmp/work/start-*.sh /usr/local/bin/ && chmod +x /usr/local/bin/*.sh \
  && mv /tmp/work/jupyter_notebook_config.json $CONDA_DIR/etc/jupyter/ \
  && echo "#Version of Jupyter Notebook, JupyterHub, JupyterLab:" `jupyter notebook --version` `jupyterhub --version` `jupyter lab --version` \
- && echo "r conda-forge defaults" | xargs -n1 conda config --system --add channels \
+ && echo "r conda-forge" | xargs -n1 conda config --system --add channels \
  && conda config --system --set auto_update_conda false \
  && conda install -yq r-base r-irkernel \
  && conda clean -ya \

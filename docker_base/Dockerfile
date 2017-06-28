@@ -8,7 +8,7 @@ USER root
 COPY work /tmp/work/
 
 # Install data science enviroment: Jupyter Notebook, Python/R packages
-RUN  cd /tmp && mkdir -p $CONDA_DIR/etc/jupyter/ \
+RUN  cd /tmp \
   && conda install -yq jupyter_nbextensions_configurator jupyter_contrib_nbextensions \
   && conda install -yq r-essentials `cat /tmp/work/list_conda_install.txt` \
   && conda clean -ya \
