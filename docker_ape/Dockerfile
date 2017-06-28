@@ -36,7 +36,8 @@ RUN cd /tmp \
  &    wget --quiet "https://github.com/krallin/tini/archive/v0.14.0.zip" -O tini.zip \
  &    wait ) \
  && /bin/bash /tmp/$MINICONDA_FILE -f -b -p $CONDA_DIR \
- && pip install -U --quiet notebook jupyterhub jupyterlab \
+ && pip install -U --quiet --ignore-installed `$CONDA_DIR/bin/pip freeze --local | grep -v '^\-e' | cut -d = -f 1 | sed "/conda/d;"` \
+ && pip install -U --quiet --ignore-installed notebook jupyterhub jupyterlab \
  && mv /tmp/work/start-*.sh /usr/local/bin/ && chmod +x /usr/local/bin/*.sh \
  && echo "#Version of Jupyter Notebook, JupyterHub, JupyterLab:" `jupyter notebook --version` `jupyterhub --version` `jupyter lab --version` \
  && echo "r conda-forge defaults" | xargs -n1 conda config --system --add channels \
