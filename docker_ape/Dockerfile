@@ -22,16 +22,17 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR $CONDA_DIR/etc/jupyter/ \
  && apt-get install -yq --no-install-recommends lsb-release gnupg apt-utils apt-transport-https ca-certificates wget \
  && wget -qO- "https://deb.nodesource.com/setup_8.x" | bash - \
  && apt-get install -yq --no-install-recommends \
-    sudo locales build-essential cmake gfortran python3-dev \
+    sudo locales build-essential cmake python3-dev r-base r-base-dev\
     htop curl unzip p7zip-full vim git nodejs \
-    libssl-dev libffi-dev libaio1 libav-tools libxrender1 \
+    libssl-dev libffi-dev libaio1 libav-tools \
  && apt-get autoremove && apt-get clean && rm -rf /var/lib/apt/lists/* \
+ && echo "@ Version of Node and NPM:" `node -v` `npm -v` \
+ && echo "@ Version of R:" `R --version` \
  && echo "ALL            ALL = (ALL) NOPASSWD: ALL" >> /etc/sudoers \
  && echo "LANGUAGE=en_US.UTF-8" >> /etc/default/locale \
  && echo "LC_ALL=en_US.UTF-8"   >> /etc/default/locale \
  && echo "LC_TYPE=en_US.UTF-8"  >> /etc/default/locale \
  && echo "en_US.UTF-8 UTF-8"     > /etc/locale.gen && locale-gen \
- && echo "#Version of Node and NPM:" `node -v` `npm -v` \
  && MINICONDA_FILE="Miniconda3-latest-Linux-`arch`.sh" \
  && ( npm install -g bower \
  &    wget --quiet "https://repo.continuum.io/miniconda/$MINICONDA_FILE" \
@@ -42,12 +43,10 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR $CONDA_DIR/etc/jupyter/ \
  && pip install -U --quiet --ignore-installed notebook jupyterhub jupyterlab \
  && mv /tmp/work/start-*.sh /usr/local/bin/ && chmod +x /usr/local/bin/*.sh \
  && mv /tmp/work/jupyter_notebook_config.json $CONDA_DIR/etc/jupyter/ \
- && echo "#Version of Jupyter Notebook, JupyterHub, JupyterLab:" `jupyter notebook --version` `jupyterhub --version` `jupyter lab --version` \
- && echo "r conda-forge" | xargs -n1 conda config --system --add channels \
+ && echo "@ Version of Jupyter Notebook, JupyterHub, JupyterLab:" `jupyter notebook --version` `jupyterhub --version` `jupyter lab --version` \
+ && conda config --system --add channels "conda-forge" \
  && conda config --system --set auto_update_conda false \
- && conda install -yq r-base r-irkernel \
  && conda clean -ya \
- && echo "#Version of R:" `R --version` \
  && echo "#Conda Information:" `conda info` `conda list` \
  && unzip -q tini.zip && cd tini* && cmake . && make install \
  && mv ./tini /usr/local/bin/tini && chmod +x /usr/local/bin/tini \
