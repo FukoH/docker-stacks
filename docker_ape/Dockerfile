@@ -24,7 +24,7 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR $CONDA_DIR/etc/jupyter/ \
  && apt-get install -yq --no-install-recommends \
     sudo locales build-essential cmake python3-dev r-base r-base-dev\
     htop curl unzip p7zip-full vim git nodejs \
-    libssl-dev libffi-dev libaio1 libav-tools \
+    libssl-dev libffi-dev libaio1 libav-tools libcurl4-openssl-dev \
  && apt-get autoremove && apt-get clean && rm -rf /var/lib/apt/lists/* \
  && echo "@ Version of Node and NPM:" `node -v` `npm -v` \
  && echo "@ Version of R:" `R --version` \
