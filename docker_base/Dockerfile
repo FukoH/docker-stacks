@@ -14,7 +14,6 @@ COPY work /tmp/work/
 RUN cd /tmp \
   && mkdir -p $CONDA_DIR/etc/jupyter/ \
   && mv /tmp/work/jupyter_notebook_config.json $CONDA_DIR/etc/jupyter/ \
-  && mv /tmp/work/start-*.sh /usr/local/bin/ && chmod +x /usr/local/bin/*.sh \
   && conda install -yq jupyter_nbextensions_configurator jupyter_contrib_nbextensions \
   && conda install -yq r-essentials `cat /tmp/work/list_conda_install.txt` \
   && conda clean -ya \

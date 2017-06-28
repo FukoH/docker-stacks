@@ -6,8 +6,6 @@ vergte() {
     [ "$2" = "`echo -e "$1\n$2" | sort -V | head -n1`" ]
 }
 
-(pgrep -x "jupyterhub-singleuser" > /dev/null) || (echo "JupyterHub SingleUser is already running..." && exit)
-
 notebook_arg=""
 ( vergte `jupyter notebook --version` 5.0.0 ) && notebook_arg="${notebook_arg} --allow-root"
 [ -n "${NOTEBOOK_DIR:+x}" ];then && notebook_arg="${notebook_arg} --notebook-dir=${NOTEBOOK_DIR}"

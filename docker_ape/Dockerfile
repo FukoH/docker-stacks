@@ -10,6 +10,8 @@ ENV SHELL=/bin/bash \
     CONDA_DIR=/opt/conda \
     PATH=/opt/conda/bin:$PATH
 
+COPY work /tmp/work/
+
 # Install all OS dependencies, conda, Python (3 only), R, and NodeJS (and bower)
 RUN REPO=http://cdn-fastly.deb.debian.org \
  && echo "deb $REPO/debian stretch main\ndeb $REPO/debian-security stretch/updates main" > /etc/apt/sources.list \
@@ -33,7 +35,8 @@ RUN REPO=http://cdn-fastly.deb.debian.org \
  && pip install -U --quiet --ignore-installed `$CONDA_DIR/bin/pip freeze --local | grep -v '^\-e' | cut -d = -f 1 | sed "/conda/d;"` \
  && conda config --system --set auto_update_conda false \
  && echo "r conda-forge defaults" | xargs -n1 conda config --system --add channels \
- && conda install -yq jupyter jupyterhub jupyterlab r-base \
+ && conda install -yq jupyter jupyterhub jupyterlab r-base r-irkernel \
+ && mv /tmp/work/start-*.sh /usr/local/bin/ && chmod +x /usr/local/bin/*.sh \
  && conda clean -ya \
  && unzip -q tini.zip && cd tini* && cmake . && make install \
  && mv ./tini /usr/local/bin/tini && chmod +x /usr/local/bin/tini \
@@ -44,7 +47,6 @@ RUN REPO=http://cdn-fastly.deb.debian.org \
  && echo "LC_ALL=en_US.UTF-8"   >> /etc/default/locale \
  && echo "LC_TYPE=en_US.UTF-8"  >> /etc/default/locale \
  && echo "en_US.UTF-8 UTF-8"     > /etc/locale.gen && locale-gen \
- && echo "DataScienceX"          > /etc/hostname \
  && ( rm -rf /root/.* /tmp/.* /tmp/* || true ) && cd \
  && echo "Version of Jupyter Notebook:" `jupyter notebook --version` \
  && echo "Version of R:" `R --version` \
