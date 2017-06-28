@@ -21,7 +21,7 @@ RUN cd /tmp \
  && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
  && apt-get install -yq --no-install-recommends \
     sudo locales build-essential cmake gfortran python3-dev \
-    hotp unzip p7zip-full vim git nodejs \
+    htop unzip p7zip-full vim git nodejs \
     libssl-dev libffi-dev libaio1 libav-tools libxrender1 \
  && apt-get autoremove && apt-get clean && rm -rf /var/lib/apt/lists/* \
  && echo "ALL            ALL = (ALL) NOPASSWD: ALL" >> /etc/sudoers \
