@@ -23,7 +23,7 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR $CONDA_DIR/etc/jupyter/ \
  && wget -qO- "https://deb.nodesource.com/setup_8.x" | bash - \
  && apt-get install -yq --no-install-recommends \
     sudo locales build-essential cmake python3-dev r-base r-base-dev\
-    htop curl unzip p7zip-full vim git nodejs \
+    htop curl openssh-client unzip p7zip-full vim git nodejs \
     libssl-dev libffi-dev libaio1 libav-tools libcurl4-openssl-dev \
  && apt-get autoremove && apt-get clean && rm -rf /var/lib/apt/lists/* \
  && echo "@ Version of Node and NPM:" `node -v` `npm -v` \
@@ -52,14 +52,13 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR $CONDA_DIR/etc/jupyter/ \
  && echo "@ Conda Information:" `conda info` `conda list` \
  && unzip -q tini.zip && cd tini* && cmake . && make install \
  && mv ./tini /usr/local/bin/tini && chmod +x /usr/local/bin/tini \
- && mv /root/.bashrc /etc/bash_profile \
+ && mv /tmp/work/bash_profile /etc/bash_profile \
  && echo "[ \$BASH ] && [ -f /etc/bash_profile ] && . /etc/bash_profile" >> /etc/bash.bashrc \
- && echo "[ \$BASH ] && [ -f /root/.bashrc ] && . /root/.bashrc"         >> /etc/bash.bashrc \
+ && echo "[ \$BASH ] && [ -f /root/.bashrc ]     && . /root/.bashrc"     >> /etc/bash.bashrc \
  && ( rm -rf /root/.* /tmp/.* /tmp/* || true ) && cd
 
 EXPOSE 8888
 WORKDIR $HOME_DIR
 ENTRYPOINT ["tini", "--"]
 
-# Configure container startup
 CMD ["sh", "/usr/local/bin/start-singleuser.sh"]

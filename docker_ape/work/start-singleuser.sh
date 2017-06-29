@@ -8,7 +8,7 @@ vergte() {
 
 notebook_arg=""
 ( vergte `jupyter notebook --version` 5.0.0 ) && notebook_arg="${notebook_arg} --allow-root"
-[ -n "${NOTEBOOK_DIR:+x}" ];then && notebook_arg="${notebook_arg} --notebook-dir=${NOTEBOOK_DIR}"
+[ -n "${NOTEBOOK_DIR:+x}" ] && notebook_arg="${notebook_arg} --notebook-dir=${NOTEBOOK_DIR}"
 
 # Generate a SSH id for git if it does not exist.
 [ -e ~/.ssh/id_rsa.pub ] || ssh-keygen -t rsa -b 4096 -N "" -C `hostname` -f ~/.ssh/id_rsa
