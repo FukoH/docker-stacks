@@ -11,8 +11,13 @@ COPY work /tmp/work/
 RUN  cd /tmp \
   && ( cat /tmp/work/install_pip3.list | xargs -n 1 -L 1 pip install -U \
   &    R --quiet -e "x=scan('/tmp/work/install_R.list', what='character'); install.packages(x, repos='http://cran.us.r-project.org')" \
+  &    ( conda install -yq `cat /tmp/work/install_conda.list` && conda clean -ya ) \
   &    wait ) \
-  && conda install -yq `cat /tmp/work/install_conda.list` && conda clean -ya \
+  && jupyter nbextensions_configurator enable --sys-prefix \
+  && jupyter contrib nbextension install --sys-prefix \
+  && jupyter serverextension enable  --sys-prefix --py ipyparallel \
+  && jupyter nbextension     install --sys-prefix --py ipyparallel \
+  && jupyter nbextension     enable  --sys-prefix --py ipyparallel \
   && jupyter serverextension enable  --sys-prefix --py declarativewidgets \
   && jupyter nbextension     install --sys-prefix --py declarativewidgets \
   && jupyter nbextension     enable  --sys-prefix --py declarativewidgets \

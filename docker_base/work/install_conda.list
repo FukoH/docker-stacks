@@ -1,5 +1,2 @@
 mkl
-jupyter_nbextensions_configurator
-jupyter_contrib_nbextensions
-ipyparallel
 backports

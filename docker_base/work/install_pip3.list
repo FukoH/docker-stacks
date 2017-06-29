@@ -6,4 +6,5 @@ ibm_db ibm_db_sa sqlalchemy_pytds cx_Oracle==6.0rc1
 lxml beautifulsoup4 numpydoc sphinx
 regex bidict bitarray numexpr
 bottleneck datashape dill blaze
-seaborn vincent ipywidgets jupyter_declarativewidgets
+seaborn vincent ipywidgets ipyparallel
+jupyter_nbextensions_configurator jupyter_contrib_nbextensions jupyter_declarativewidgets
