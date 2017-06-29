@@ -44,7 +44,7 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR $CONDA_DIR/etc/jupyter/ \
  && mv /tmp/work/start-*.sh /usr/local/bin/ && chmod +x /usr/local/bin/*.sh \
  && mv /tmp/work/jupyter_notebook_config.json $CONDA_DIR/etc/jupyter/ \
  && R -e "install.packages('devtools', repos='http://cran.us.r-project.org');" \ 
- && R -e "devtools::install_github('IRkernel/IRkernel'); IRkernel::installspec()" \
+ && R -e "devtools::install_github('IRkernel/IRkernel'); IRkernel::installspec(user=FALSE)" \
  && echo "@ Version of Jupyter Notebook, JupyterHub, JupyterLab:" `jupyter notebook --version` `jupyterhub --version` `jupyter lab --version` \
  && conda config --system --add channels "conda-forge" \
  && conda config --system --set auto_update_conda false \
