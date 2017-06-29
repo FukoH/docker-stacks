@@ -1,6 +1,6 @@
 cython future  backports_abc contextlib2 cytoolz astroid
+tensorflow theano keras nltk gensim
 scikit-learn scikit-image scikit-bio opencv-python statsmodels pywavelets patsy sympy rpy2
-tensorflow theano keras nltk gensim 
 xlrd pandasql  pyodbc sqlalchemy redis-py psycopg2 pymysql
 ibm_db ibm_db_sa sqlalchemy_pytds cx_Oracle==6.0rc1
 lxml beautifulsoup4 numpydoc sphinx

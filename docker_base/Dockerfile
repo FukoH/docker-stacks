@@ -9,10 +9,10 @@ COPY work /tmp/work/
 
 # Install data science enviroment: Jupyter Notebook, Python/R packages
 RUN  cd /tmp \
-  && R -e "x=scan('/tmp/work/list_R_install.txt', what='character'); install.packages(x, repos='http://cran.us.r-project.org')" \
-  && pip   install -U  `cat /tmp/work/list_pip_install.txt`   \
-  && conda install -yq `cat /tmp/work/list_conda_install.txt` \
-  && conda clean -ya \
+  && ( cat /tmp/work/install_pip3.list | xargs -n 1 -L 1 pip install -U \
+  &    R --quiet -e "x=scan('/tmp/work/install_R.list', what='character'); install.packages(x, repos='http://cran.us.r-project.org')" \
+  &    wait ) \
+  && conda install -yq `cat /tmp/work/install_conda.list` && conda clean -ya
   && jupyter serverextension enable  --sys-prefix --py declarativewidgets \
   && jupyter nbextension     install --sys-prefix --py declarativewidgets \
   && jupyter nbextension     enable  --sys-prefix --py declarativewidgets \
