@@ -12,7 +12,7 @@ RUN  cd /tmp \
   && ( cat /tmp/work/install_pip3.list | xargs -n 1 -L 1 pip install -U \
   &    R --quiet -e "x=scan('/tmp/work/install_R.list', what='character'); install.packages(x, repos='http://cran.us.r-project.org')" \
   &    wait ) \
-  && conda install -yq `cat /tmp/work/install_conda.list` && conda clean -ya
+  && conda install -yq `cat /tmp/work/install_conda.list` && conda clean -ya \
   && jupyter serverextension enable  --sys-prefix --py declarativewidgets \
   && jupyter nbextension     install --sys-prefix --py declarativewidgets \
   && jupyter nbextension     enable  --sys-prefix --py declarativewidgets \
