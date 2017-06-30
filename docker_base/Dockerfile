@@ -16,6 +16,7 @@ RUN  apt-get update --fix-missing && apt-get install `cat /tmp/work/install_apt.
   &    wait ) \
   && jupyter nbextensions_configurator enable --sys-prefix \
   && jupyter contrib nbextension install --sys-prefix \
+  && jupyter nbextension     enable  --sys-prefix --py widgetsnbextension \
   && jupyter serverextension enable  --sys-prefix --py ipyparallel \
   && jupyter nbextension     install --sys-prefix --py ipyparallel \
   && jupyter nbextension     enable  --sys-prefix --py ipyparallel \
