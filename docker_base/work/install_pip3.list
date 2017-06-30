@@ -5,6 +5,6 @@ xlrd pandasql  pyodbc sqlalchemy redis-py psycopg2 pymysql
 ibm_db ibm_db_sa sqlalchemy_pytds cx_Oracle==6.0rc1
 lxml beautifulsoup4 numpydoc sphinx
 regex bidict bitarray numexpr
-bottleneck datashape dill blaze
+bottleneck datashape dill blaze dask cloudpickle
 seaborn vincent ipywidgets ipyparallel
 jupyter_nbextensions_configurator jupyter_contrib_nbextensions jupyter_declarativewidgets
