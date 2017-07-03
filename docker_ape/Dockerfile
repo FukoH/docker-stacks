@@ -41,7 +41,7 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR \
  && echo "deb     https://deb.nodesource.com/node_8.x ${DISTRO} main"                   >  /etc/apt/sources.list.d/nodesource.list \
  && echo "deb-src https://deb.nodesource.com/node_8.x ${DISTRO} main"                   >> /etc/apt/sources.list.d/nodesource.list \
  && echo "deb     https://cloud.r-project.org/bin/linux/debian ${DISTRO}-cran34/"       >  /etc/apt/sources.list.d/R-source.list   \
- && ( apt-get update && apt-get install -yq --no-install-recommends `cat /tmp/install_apt.list | cut -d '#' -f 1` \
+ && ( apt-get update && apt-get install -yq --no-install-recommends `cat /tmp/work/install_apt.list | cut -d '#' -f 1` \
  &    wget -qO- "https://repo.continuum.io/miniconda/$MINICONDA_FILE" -O conda.sh && bash /tmp/conda.sh -f -b -p $CONDA_DIR \
  &    wait ) \
  && conda config --system --set auto_update_conda false \
