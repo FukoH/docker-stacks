@@ -54,11 +54,11 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR \
  && mkdir -p $CONDA_DIR/etc/jupyter/ && mv /tmp/work/jupyter_notebook_config.json $CONDA_DIR/etc/jupyter/ \
  && mv /tmp/work/start-*.sh /usr/local/bin/ && chmod +x /usr/local/bin/*.sh \
  && ( rm -rf /root/.* /tmp/.* /tmp/* || true ) && cd \
- && echo "@ Version of building: image building finished at:" `date`   \
- && echo "@ Version of Node/NPM/Bower:"  `node -v` `npm -v` `bower -v` \
+ && echo "@ Version of Node/NPM:"  `node -v` `npm -v` \
  && echo "@ Version of Jupyter Notebook/JupyterHub/JupyterLab:" `jupyter notebook --version` `jupyterhub --version` `jupyter lab --version` \
  && echo "@ Version of R:" && R --version \
  && echo "@ Conda Information:" && conda info && conda list
+ && echo "@ Version of building: image building finished at:" `date`
 
 ENTRYPOINT ["tini", "--"]
 WORKDIR $HOME_DIR

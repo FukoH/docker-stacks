@@ -1,6 +1,7 @@
 nodejs
 r-base
-r-base-dev   # required when building and install some R libraries
-python3-dev  # required when building and install some python packages
-libssl-dev   # required when building python packages: cryptography
-libffi-dev   # required when building python packages: cffi
+r-base-dev		# required when building and install some R libraries
+python3-dev		# required when building and install some python packages
+libssl-dev		# required when building python packages: cryptography
+libffi-dev		# required when building python packages: cffi
+libcurl4-openssl-dev	# required when building R package curl
