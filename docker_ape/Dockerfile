@@ -18,8 +18,8 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR \
  && echo "###### Install OS unilities and setup some configurations..." \
  && echo "deb     http://cdn-fastly.deb.debian.org/debian stretch main"                   > /etc/apt/sources.list \
  && echo "deb     http://cdn-fastly.deb.debian.org/debian-security stretch/updates main" >> /etc/apt/sources.list \
- && apt update --fix-missing && apt -yq dist-upgrade \
- && apt install -yq --no-install-recommends \
+ && apt-get update --fix-missing && apt-get -yq dist-upgrade \
+ && apt-get install -yq --no-install-recommends \
     apt-utils apt-transport-https ca-certificates lsb-release gnupg dirmngr \
     wget curl sudo locales openssh-client build-essential cmake \
     unzip p7zip-full vim git htop \
@@ -38,16 +38,16 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR \
  && DISTRO=$(lsb_release -c -s) && ARCH=$(arch) && MINICONDA_FILE="Miniconda3-latest-Linux-${ARCH}.sh"  \
  && wget -qO- "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"                    | apt-key add - \
  && wget -qO- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xAD5F960A256A04AF" | apt-key add - \
- && echo 'deb     https://deb.nodesource.com/node_8.x ${DISTRO} main'                   >  /etc/apt/sources.list.d/nodesource.list \
- && echo 'deb-src https://deb.nodesource.com/node_8.x ${DISTRO} main'                   >> /etc/apt/sources.list.d/nodesource.list \
+ && echo "deb     https://deb.nodesource.com/node_8.x ${DISTRO} main"                   >  /etc/apt/sources.list.d/nodesource.list \
+ && echo "deb-src https://deb.nodesource.com/node_8.x ${DISTRO} main"                   >> /etc/apt/sources.list.d/nodesource.list \
  && echo "deb     https://cloud.r-project.org/bin/linux/debian ${DISTRO}-cran34/"       >  /etc/apt/sources.list.d/R-source.list   \
- && ( apt update && apt install -yq --no-install-recommends `cat /tmp/install_apt.list | cut -d '#' -f 1` \
+ && ( apt-get update && apt-get install -yq --no-install-recommends `cat /tmp/install_apt.list | cut -d '#' -f 1` \
  &    wget -qO- "https://repo.continuum.io/miniconda/$MINICONDA_FILE" -O conda.sh && bash /tmp/conda.sh -f -b -p $CONDA_DIR \
  &    wait ) \
  && conda config --system --set auto_update_conda false \
  && conda config --system --add channels "conda-forge"  \
  && conda clean -ya \
- && apt autoremove && apt clean && rm -rf /var/lib/apt/lists/* \
+ && apt-get autoremove && apt-get clean && rm -rf /var/lib/apt/lists/* \
  && ( pip install -U --quiet --ignore-installed notebook jupyterhub jupyterlab `$CONDA_DIR/bin/pip freeze --local | cut -d = -f 1 | sed "/conda/d;"` \
  &    R -e "install.packages('devtools', repos='http://cran.us.r-project.org'); devtools::install_github('IRkernel/IRkernel'); IRkernel::installspec(user=FALSE)" \ 
  &    wait ) \
