@@ -11,8 +11,9 @@ COPY work /tmp/work/
 RUN  apt-get update --fix-missing && apt-get install `cat /tmp/work/install_apt.list` \
   && apt-get clean && rm -rf /var/lib/apt/lists/ \
   && ( cat /tmp/work/install_pip3.list | xargs -n 1 -L 1 pip install -U \
-  &    R --quiet -e "x=scan('/tmp/work/install_R.list', what='character'); install.packages(x, repos='http://cran.us.r-project.org')" \
-  &    ( conda install -yq `cat /tmp/work/install_conda.list` && conda clean -ya ) \
+  &    npm install --global webpack bower \
+  &    conda install -yq `cat /tmp/work/install_conda.list` && conda clean -ya \
+  &    R --quiet -e "install.packages(scan('/tmp/work/install_R.list', what='character'), repos='http://cran.us.r-project.org')" \
   &    wait ) \
   && jupyter nbextensions_configurator enable --sys-prefix \
   && jupyter contrib nbextension install --sys-prefix \
