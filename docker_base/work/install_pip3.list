@@ -1,10 +1,18 @@
-cython future  backports_abc contextlib2 cytoolz astroid
-tensorflow theano keras nltk gensim
-scikit-learn scikit-image scikit-bio opencv-python statsmodels pywavelets patsy sympy rpy2
-xlrd pandasql  pyodbc sqlalchemy redis-py psycopg2 pymysql
-ibm_db ibm_db_sa sqlalchemy_pytds cx_Oracle==6.0rc1
-lxml beautifulsoup4 numpydoc sphinx
-regex bidict bitarray numexpr
-bottleneck datashape dill blaze dask cloudpickle
-seaborn vincent ipywidgets ipyparallel
-jupyter_nbextensions_configurator jupyter_contrib_nbextensions jupyter_declarativewidgets
+% This file contains python packages to be installed with pip line by line.
+% Use percent char as line comment separator.
+% Lib Reference: https://docs.continuum.io/anaconda/packages/pkg-docs
+cython contextlib2 cytoolz future wrapt regex chardet 	% Python enhanced modules, utilites; object serialize
+blist bidict bitarray heapdict zict						% Enhanced Data Structures
+sortedcontainers sortedcollections						% Enhanced Data Structures
+lxml beautifulsoup4 pyquery mistune numpydoc sphinx		% Parse/Build documents
+patsy statsmodels sympy pywavelets  numexpr				% Statistics, Maths, and related Utilities
+scikit-learn Orange3 tensorflow theano keras			% statistic ML, neural network
+nltk gensim spacy PyStemmer pyparsing astroid			% NLP, parsing AST
+scikit-image opencv-python								% Computer Vision
+scikit-bio biopython Orange-Bioinformatics				% BioInformatics
+datashape bottleneck blaze dask distributed ipyparallel % Python BigData/parallel interface
+sqlalchemy pandasql pymsql pycopg2 pymongo				% Data access: OpenSource DB
+ibm_db ibm_db_sa sqlalchemy_pytds cx_Oracle==6.0rc1		% Data access: Commercial DB
+rpy2 py4j pyspark dill cloudpickle						% Data access: external systems; Object Serialization
+seaborn vincent 										% data visualization
+jupyter_declarativewidgets								% Jupyter Notebook declarative widgets (cannot install from git now)

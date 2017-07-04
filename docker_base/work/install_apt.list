@@ -1,1 +1,1 @@
-libxml2-dev
+libxml2-dev		# required to build and install R package xml2

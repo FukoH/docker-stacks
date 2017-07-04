@@ -48,15 +48,18 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR \
  && conda config --system --add channels "conda-forge"  \
  && conda clean -ya \
  && apt-get autoremove && apt-get clean && rm -rf /var/lib/apt/lists/* \
- && ( pip install -U --quiet --ignore-installed notebook jupyterhub jupyterlab `$CONDA_DIR/bin/pip freeze --local | cut -d = -f 1 | sed "/conda/d;"` \
- &    R -e "install.packages('devtools', repos='http://cran.us.r-project.org'); devtools::install_github('IRkernel/IRkernel'); IRkernel::installspec(user=FALSE)" \ 
- &    wait ) \
+ && CONDA_PY_PKGS=`$CONDA_DIR/bin/conda list | grep "py3" | cut -d " " -f 1 | sed "/#/d;/conda/d;/pip/d;/setuptools/d;"` \
+ && conda remove --force -yq $CONDA_PY_PKGS \
+ && pip install -U --quiet --ignore-installed pip setuptools $CONDA_PY_PKGS \
+ && pip install -U --quiet notebook jupyterhub jupyterlab \
+ && R -e "install.packages('devtools', repos='http://cran.us.r-project.org');"              > /dev/null \
+ && R -e "devtools::install_github('IRkernel/IRkernel'); IRkernel::installspec(user=FALSE)" > /dev/null \
  && mkdir -p $CONDA_DIR/etc/jupyter/ && mv /tmp/work/jupyter_notebook_config.json $CONDA_DIR/etc/jupyter/ \
  && mv /tmp/work/start-*.sh /usr/local/bin/ && chmod +x /usr/local/bin/*.sh \
  && ( rm -rf /root/.* /tmp/.* /tmp/* || true ) && cd \
  && echo "@ Version of Node/NPM:"  `node -v` `npm -v` \
  && echo "@ Version of Jupyter Notebook/JupyterHub/JupyterLab:" `jupyter notebook --version` `jupyterhub --version` `jupyter lab --version` \
- && echo "@ Version of R:" && R --version \
+ && echo "@ Version of R and IRkernel:" && R -e "R.Version()\$version.string; installed.packages()['IRkernel','Version']" \
  && echo "@ Version of Conda & Python:" && conda info && conda list \
  && echo "@ Version of building: image building finished at:" `date`
 

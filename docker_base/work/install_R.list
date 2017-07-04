@@ -9,10 +9,10 @@ ggplot2
 glmnet
 haven
 hms
-kernsmooth
+KernSmooth
 lubridate
-mass
-matrix
+MASS
+Matrix
 modelr
 plyr
 purrr
