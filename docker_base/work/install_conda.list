@@ -1,4 +1,4 @@
-# This file contains conda packages to be installed with pip line by line.
-# Use hash char as line comment separator.
-# It is recommended all python packages to be installed with pip; but keep at least one package below (pip)!
-pip     # placeholder, at least one package should be listed here.
+% This file contains conda packages to be installed with conda line by line.
+% Use percent char as line comment separator.
+% It is recommended all python packages to be installed with pip.
+% Leave this file as empty if no packages is to be installed with conda.
