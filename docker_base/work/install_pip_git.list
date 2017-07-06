@@ -1,5 +1,0 @@
-% This file contains python packages to be installed with `pip -e` line by line (Note, only CVS based repo should be listed here).
-% Use percent char as line comment separator.
-% git+git://github.com/ipython-contrib/jupyter_contrib_nbextensions#egg=jupyter_contrib_nbextensions
-git+git://github.com/blaze/odo#egg=odo[all]
-git+git://github.com/jupyter-widgets/ipywidgets#egg=ipywidgets
