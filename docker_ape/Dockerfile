@@ -51,7 +51,7 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR \
  && pip install -UIq --pre pip setuptools notebook jupyterhub jupyterlab $CONDA_PY_PKGS \
  && conda clean -ya \
  && R -e "install.packages('devtools',repos='http://cran.us.r-project.org',quiet=T,clean=T)" \
- && R -e "devtools::install_github('IRkernel/IRkernel'); IRkernel::installspec(user=FALSE,quiet=T,clean=T)" \
+ && R -e "devtools::install_github('IRkernel/IRkernel',quiet=T,clean=T); IRkernel::installspec(user=FALSE)" \
  && mkdir -p $CONDA_DIR/etc/jupyter/ && mv /tmp/work/jupyter_notebook_config.json $CONDA_DIR/etc/jupyter/ \
  && mv /tmp/work/start-*.sh /usr/local/bin/ && chmod +x /usr/local/bin/*.sh \
  && echo "######### Clean up and display components version information..." \
