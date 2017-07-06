@@ -18,8 +18,8 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR \
  && echo "######### Install OS unilities and setup some configurations..." \
  && echo "deb     http://cdn-fastly.deb.debian.org/debian stretch main"                   > /etc/apt/sources.list \
  && echo "deb     http://cdn-fastly.deb.debian.org/debian-security stretch/updates main" >> /etc/apt/sources.list \
- && apt-get update --fix-missing && apt-get -yq dist-upgrade \
- && apt-get install -yq --no-install-recommends \
+ && apt-get -y update --fix-missing && apt-get -y dist-upgrade \
+ && apt-get -qq install -y --no-install-recommends \
     apt-utils apt-transport-https ca-certificates lsb-release gnupg dirmngr \
     wget curl sudo locales openssh-client build-essential cmake unzip p7zip-full htop vim git \
  && echo "ALL	ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers \
@@ -28,19 +28,19 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR \
  && echo "LC_TYPE=en_US.UTF-8"  >> /etc/default/locale \
  && echo "en_US.UTF-8 UTF-8"     > /etc/locale.gen && locale-gen \
  && mv /tmp/work/bash_profile /etc/bash_profile \
- && echo "[ \$BASH ] && [ -f /etc/bash_profile ] && . /etc/bash_profile" >> /etc/bash.bashrc \
- && echo "[ \$BASH ] && [ -f /root/.bashrc ]     && . /root/.bashrc"     >> /etc/bash.bashrc \
+ && echo "[ \$BASH ] && [ -f /etc/bash_profile ] && . /etc/bash_profile"	>> /etc/bash.bashrc \
+ && echo "[ \$BASH ] && [ -f /root/.bashrc ]     && . /root/.bashrc"		>> /etc/bash.bashrc \
  && echo "######### Build and install tini, which will be set as container entry point later..." \
  && wget -qO- "https://github.com/krallin/tini/archive/v0.14.0.zip" -O tini.zip && unzip -q /tmp/tini.zip \
  && cmake /tmp/tini-* && make install && mv /tmp/tini /usr/local/bin/tini && chmod +x /usr/local/bin/tini \
  && echo "######### Install Python3 (Miniconda3), R, NodeJS, Jupyter, and enable IRkernel for Jupyter..." \
  && DISTRO=$(lsb_release -c -s) && ARCH=$(arch) && MINICONDA_FILE="Miniconda3-latest-Linux-${ARCH}.sh"  \
- && wget -qO- "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"                    | apt-key add - \
- && wget -qO- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xAD5F960A256A04AF" | apt-key add - \
- && echo "deb     https://deb.nodesource.com/node_8.x ${DISTRO} main"                   >  /etc/apt/sources.list.d/nodesource.list \
- && echo "deb-src https://deb.nodesource.com/node_8.x ${DISTRO} main"                   >> /etc/apt/sources.list.d/nodesource.list \
- && echo "deb     https://cloud.r-project.org/bin/linux/debian ${DISTRO}-cran34/"       >  /etc/apt/sources.list.d/R-source.list   \
- && ( apt-get update && apt-get install -yq --no-install-recommends `cat /tmp/work/install_apt.list | cut -d '#' -f 1` \
+ && wget -qO- "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"					| apt-key add - \
+ && wget -qO- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xAD5F960A256A04AF"	| apt-key add - \
+ && echo "deb		https://deb.nodesource.com/node_8.x ${DISTRO} main"					>  /etc/apt/sources.list.d/nodesource.list \
+ && echo "deb-src	https://deb.nodesource.com/node_8.x ${DISTRO} main"					>> /etc/apt/sources.list.d/nodesource.list \
+ && echo "deb		https://cloud.r-project.org/bin/linux/debian ${DISTRO}-cran34/"		>  /etc/apt/sources.list.d/R-source.list   \
+ && ( apt-get -y update && apt-get -qq install -y --no-install-recommends `cat /tmp/work/install_apt.list | cut -d '#' -f 1` \
  &    wget -qO- "https://repo.continuum.io/miniconda/$MINICONDA_FILE" -O conda.sh && bash /tmp/conda.sh -f -b -p $CONDA_DIR \
  &    wait ) \
  && apt-get autoremove && apt-get clean && rm -rf /var/lib/apt/lists/* \
@@ -50,8 +50,8 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR \
  && conda remove --force -yq $CONDA_PY_PKGS \
  && pip install -UIq --pre pip setuptools notebook jupyterhub jupyterlab $CONDA_PY_PKGS \
  && conda clean -ya \
- && R -e "install.packages('devtools',repos='http://cran.us.r-project.org',quiet=T,clean=T)" \
- && R -e "devtools::install_github('IRkernel/IRkernel',quiet=T,clean=T); IRkernel::installspec(user=FALSE)" \
+ && echo "options(repos=structure(c(CRAN='http://cran.us.r-project.org')))" >> /etc/R/Rprofile.site \
+ && R -e "install.packages('devtools',quiet=T,clean=T);devtools::install_github('IRkernel/IRkernel',quiet=T,clean=T);IRkernel::installspec(user=F)" \
  && mkdir -p $CONDA_DIR/etc/jupyter/ && mv /tmp/work/jupyter_notebook_config.json $CONDA_DIR/etc/jupyter/ \
  && mv /tmp/work/start-*.sh /usr/local/bin/ && chmod +x /usr/local/bin/*.sh \
  && echo "######### Clean up and display components version information..." \
