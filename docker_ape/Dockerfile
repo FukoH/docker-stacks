@@ -59,6 +59,7 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR \
  && ( rm -rf /root/.* /tmp/.* /tmp/* || true ) && cd \
  && echo "@ Version of Node/NPM:"  `node -v` `npm -v` \
  && echo "@ Version of Jupyter Notebook/JupyterHub/JupyterLab:" `jupyter notebook --version` `jupyterhub --version` `jupyter lab --version` \
+ && echo "@ Version of Java (java/javac):" && java -version && javac -version \
  && echo "@ Version of R and IRkernel:" && R -e "R.version.string; installed.packages()['IRkernel','Version']" \
  && echo "@ Version of Conda & Python:" && conda info && conda list \
  && echo "@ Version of image: building finished at:" `date`
