@@ -47,8 +47,9 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR \
  && conda config --system --set auto_update_conda false \
  && conda config --system --add channels "conda-forge"  \
  && CONDA_PY_PKGS=`$CONDA_DIR/bin/conda list | grep "py3" | cut -d " " -f 1 | sed "/#/d;/conda/d;/pip/d;/setuptools/d;"` \
- && conda remove --force -yq $CONDA_PY_PKGS && conda clean -ya \
+ && conda remove --force -yq $CONDA_PY_PKGS \
  && pip install -UIq --pre pip setuptools notebook jupyterhub jupyterlab $CONDA_PY_PKGS \
+ && conda clean -ya \
  && R -e "install.packages('devtools',repos='http://cran.us.r-project.org',quiet=T,clean=T)" \
  && R -e "devtools::install_github('IRkernel/IRkernel'); IRkernel::installspec(user=FALSE)" \
  && mkdir -p $CONDA_DIR/etc/jupyter/ && mv /tmp/work/jupyter_notebook_config.json $CONDA_DIR/etc/jupyter/ \
