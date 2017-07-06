@@ -22,6 +22,7 @@ rbokeh
 readr
 readxl
 reshape2
+rJava
 rmarkdown
 rvest
 shiny
