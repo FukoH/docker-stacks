@@ -12,6 +12,7 @@ RUN  cd /tmp && apt-get -y update --fix-missing \
   && apt-get -qq install -y --no-install-recommends `cat /tmp/work/install_apt.list | cut -d '#' -f 1` \
   && apt-get autoremove && apt-get clean && rm -rf /var/lib/apt/lists/* \
   && ( if [ `arch` = "x86_64" ]; then conda install -yq mkl; fi ) \
+  && ( type java && type R && R CMD javareconf || true ) \
   && pip_install_file() { cat $2 | cut -d "%" -f 1 | sed '/^$/d' | xargs -n1 pip install -U --pre $1; } \
   && ( npm install --global webpack bower \
   &    R -e "install.packages(scan('/tmp/work/install_R.list','c'),quiet=T,clean=T)" \

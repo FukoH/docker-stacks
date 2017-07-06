@@ -2,8 +2,7 @@ nodejs					# NodeJS and NPM
 r-base					# CRAN R language base
 r-base-dev				# required when building and install some R libraries
 python3-dev				# required when building and install some python packages
-openjdk-8-jre-headless	# Java Runtime without GUI related components
-ca-certificates-java	# Common CA certificates (JKS keystore)
+openjdk-8-jdk-headless  # Java Development Kit and Runtime without GUI related components, including common CA certificates (JKS keystore)
 libssl-dev				# required when building python packages: cryptography
 libffi-dev				# required when building python packages: cffi
 libcurl4-openssl-dev	# required when building R package curl
