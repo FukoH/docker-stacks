@@ -50,6 +50,7 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR \
  && conda remove --force -yq $CONDA_PY_PKGS \
  && pip install -UIq --pre pip setuptools notebook jupyterhub jupyterlab $CONDA_PY_PKGS \
  && conda clean -ya \
+ && ( type java && type R && R CMD javareconf || true ) \
  && echo "options(repos=structure(c(CRAN='http://cran.us.r-project.org')))" >> /etc/R/Rprofile.site \
  && R -e "install.packages('devtools',quiet=T,clean=T);devtools::install_github('IRkernel/IRkernel',quiet=T,clean=T);IRkernel::installspec(user=F)" \
  && mkdir -p $CONDA_DIR/etc/jupyter/ && mv /tmp/work/jupyter_notebook_config.json $CONDA_DIR/etc/jupyter/ \
