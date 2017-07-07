@@ -27,13 +27,13 @@ RUN  cd /tmp && apt-get -y update --fix-missing \
   && echo "@ Version of installed R libraries:"     && R -e "R.Version()\$version.string;installed.packages()[,c(3,10)]" \
   && jupyter nbextension     enable  --sys-prefix --py widgetsnbextension \
   && jupyter serverextension enable  --sys-prefix --py ipyparallel \
-  && jupyter nbextension     install --sys-prefix --py ipyparallel \
+  && jupyter nbextension     install --sys-prefix --py ipyparallel &> /dev/null \
   && jupyter nbextension     enable  --sys-prefix --py ipyparallel \
   && jupyter serverextension enable  --sys-prefix --py declarativewidgets \
-  && jupyter nbextension     install --sys-prefix --py declarativewidgets \
+  && jupyter nbextension     install --sys-prefix --py declarativewidgets &> /dev/null \
   && jupyter nbextension     enable  --sys-prefix --py declarativewidgets \
   && jupyter nbextensions_configurator enable --sys-prefix \
-  && jupyter contrib nbextension install --sys-prefix \
+  && jupyter contrib nbextension install --sys-prefix &> /dev/null \
   && ( rm -rf /root/.* /tmp/.* /tmp/* || true ) && cd \
   && echo "@ Jupyter Extension list" && jupyter nbextension list && jupyter serverextension list \
   && echo "@ Version of image: building finished at:" `date`

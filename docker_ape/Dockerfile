@@ -33,7 +33,7 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR \
  && echo "######### Build and install tini, which will be set as container entry point later..." \
  && wget -qO- "https://github.com/krallin/tini/archive/v0.14.0.zip" -O tini.zip && unzip -q /tmp/tini.zip \
  && cmake /tmp/tini-* && make install && mv /tmp/tini /usr/local/bin/tini && chmod +x /usr/local/bin/tini \
- && echo "######### Install Python3 (Miniconda3), R, NodeJS, Jupyter, and enable IRkernel for Jupyter..." \
+ && echo "######### Install Python3 (Miniconda3), R, JDK, NodeJS, Jupyter, and enable IRkernel for Jupyter..." \
  && DISTRO=$(lsb_release -c -s) && ARCH=$(arch) && MINICONDA_FILE="Miniconda3-latest-Linux-${ARCH}.sh"  \
  && wget -qO- "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"					| apt-key add - \
  && wget -qO- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xAD5F960A256A04AF"	| apt-key add - \
