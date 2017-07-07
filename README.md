@@ -8,7 +8,7 @@ This repo includes files and scripts to build Docker Images for Data Science Env
 ### datascience_ape (folder `docker_ape`)
 [![](https://images.microbadger.com/badges/image/intelligencelab/datascience_ape.svg)](https://hub.docker.com/r/intelligencelab/datascience_ape/ "Click to view the image on DockerHub") [![](https://images.microbadger.com/badges/version/intelligencelab/datascience_ape.svg)](https://microbadger.com/images/intelligencelab/datascience_ape)
 
-This docker image including basic environment to run a Jupyter Notebook (or JupyterHub) with Python 3, R 3.4, Java Runtinme 8, NodeJS 8.
+This docker image including basic environment to run a Jupyter Notebook (or JupyterHub) with Python 3, R 3.4, OpenJDK 8, NodeJS 8.
 
 The images is built based on `debian:stretch`, although only tested on x86 platform, it is expected to be able to run on ppc64le platform.
 
