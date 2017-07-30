@@ -7,6 +7,9 @@ USER root
 
 ENV SHELL=/bin/bash \
     DEBIAN_FRONTEND=noninteractive \
+    LC_ALL=en_US.UTF-8 \
+    LANG=en_US.UTF-8 \
+    LANGUAGE=en_US.UTF-8 \
     CONDA_DIR=/opt/conda \
     PATH=/opt/conda/bin:$PATH \
     HOME_DIR=/root \
@@ -23,9 +26,6 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR \
     apt-utils apt-transport-https ca-certificates lsb-release gnupg dirmngr \
     wget curl sudo locales openssh-client build-essential cmake unzip p7zip-full htop vim git \
  && echo "ALL	ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers \
- && echo "LANGUAGE=en_US.UTF-8" >> /etc/default/locale \
- && echo "LC_ALL=en_US.UTF-8"   >> /etc/default/locale \
- && echo "LC_TYPE=en_US.UTF-8"  >> /etc/default/locale \
  && echo "en_US.UTF-8 UTF-8"     > /etc/locale.gen && locale-gen \
  && mv /tmp/work/bash_profile /etc/bash_profile \
  && echo "[ \$BASH ] && [ -f /etc/bash_profile ] && . /etc/bash_profile"	>> /etc/bash.bashrc \
