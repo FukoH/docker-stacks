@@ -30,9 +30,6 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR \
  && mv /tmp/work/bash_profile /etc/bash_profile \
  && echo "[ \$BASH ] && [ -f /etc/bash_profile ] && . /etc/bash_profile"	>> /etc/bash.bashrc \
  && echo "[ \$BASH ] && [ -f /root/.bashrc ]     && . /root/.bashrc"		>> /etc/bash.bashrc \
- && echo "######### Build and install tini, which will be set as container entry point later..." \
- && wget -qO- "https://github.com/krallin/tini/archive/v0.14.0.zip" -O tini.zip && unzip -q /tmp/tini.zip \
- && cmake /tmp/tini-* && make install && mv /tmp/tini /usr/local/bin/tini && chmod +x /usr/local/bin/tini \
  && echo "######### Install Python3 (Miniconda3), R, JDK, NodeJS, Jupyter, and enable IRkernel for Jupyter..." \
  && DISTRO=$(lsb_release -c -s) && ARCH=$(arch) && MINICONDA_FILE="Miniconda3-latest-Linux-${ARCH}.sh"  \
  && wget -qO- "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"					| apt-key add - \
@@ -44,17 +41,25 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR \
  &    wget -qO- "https://repo.continuum.io/miniconda/$MINICONDA_FILE" -O conda.sh && bash /tmp/conda.sh -f -b -p $CONDA_DIR \
  &    wait ) \
  && apt-get autoremove && apt-get clean && rm -rf /var/lib/apt/lists/* \
- && conda config --system --set auto_update_conda false \
- && conda config --system --add channels "conda-forge"  \
  && CONDA_PY_PKGS=`$CONDA_DIR/bin/conda list | grep "py3" | cut -d " " -f 1 | sed "/#/d;/conda/d;/pip/d;/setuptools/d;"` \
  && conda remove --force -yq $CONDA_PY_PKGS \
- && pip install -UIq --pre pip setuptools notebook jupyterhub jupyterlab $CONDA_PY_PKGS \
+ && pip install -UIq --pre pip setuptools notebook jupyterhub jupyterlab ipywidgets $CONDA_PY_PKGS \
+ && jupyter nbextension     enable  --sys-prefix --py widgetsnbextension \
+ && jupyter serverextension enable  --sys-prefix --py jupyterlab \
+ && jupyter labextension    install @jupyter-widgets/jupyterlab-manager \
+ && conda config --system --set auto_update_conda false \
+ && conda config --system --add channels "conda-forge"  \
  && conda clean -ya \
- && ( type java && type R && R CMD javareconf || true ) \
  && echo "options(repos=structure(c(CRAN='http://cran.us.r-project.org')))" >> /etc/R/Rprofile.site \
- && R -e "install.packages('devtools',quiet=T,clean=T);devtools::install_github('IRkernel/IRkernel',quiet=T,clean=T);IRkernel::installspec(user=F)" \
+ && R -e "install.packages('devtools',quiet=T,clean=T);" \
+ && R -e "devtools::install_github('IRkernel/IRkernel',quiet=T,clean=T);IRkernel::installspec(user=F)" \
+ && ( type java && type R && R CMD javareconf || true ) \
  && mkdir -p $CONDA_DIR/etc/jupyter/ && mv /tmp/work/jupyter_notebook_config.json $CONDA_DIR/etc/jupyter/ \
- && mv /tmp/work/start-*.sh /usr/local/bin/ && chmod +x /usr/local/bin/*.sh \
+ && mv /tmp/work/start-*.sh /usr/local/bin/ \
+ && echo "######### Build and install tini, which will be set as container entry point later..." \
+ && wget -qO- "https://github.com/krallin/tini/archive/v0.14.0.zip" -O tini.zip && unzip -q /tmp/tini.zip \
+ && cmake /tmp/tini-* && make install && mv /tmp/tini /usr/local/bin/tini \
+ && chmod +x /usr/local/bin/* \
  && echo "######### Clean up and display components version information..." \
  && ( rm -rf /root/.* /tmp/.* /tmp/* || true ) && cd \
  && echo "@ Version of Node/NPM:"  `node -v` `npm -v` \
@@ -67,4 +72,4 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR \
 ENTRYPOINT ["tini", "--"]
 WORKDIR $HOME_DIR
 EXPOSE 8888
-CMD ["sh", "/usr/local/bin/start-singleuser.sh"]
+CMD ["/bin/bash", "/usr/local/bin/start-singleuser.sh"]

@@ -25,7 +25,6 @@ RUN  cd /tmp && apt-get -y update --fix-missing \
   && echo "@ Version of installed Conda packages:"  && conda info && conda list | grep -v "<pip>" \
   && echo "@ Version of installed Python packages:" && pip list \
   && echo "@ Version of installed R libraries:"     && R -e "R.Version()\$version.string;installed.packages()[,c(3,10)]" \
-  && jupyter nbextension     enable  --sys-prefix --py widgetsnbextension \
   && jupyter serverextension enable  --sys-prefix --py ipyparallel \
   && jupyter nbextension     install --sys-prefix --py ipyparallel \
   && jupyter nbextension     enable  --sys-prefix --py ipyparallel \

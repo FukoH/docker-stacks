@@ -1,6 +1,6 @@
 #!/bin/bash
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-source $DIR/start--pre.sh
+. $DIR/start--pre.sh
 
 notebook_arg=""
 
