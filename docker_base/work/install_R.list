@@ -23,6 +23,7 @@ readr
 readxl
 reshape2
 rJava
+RWeka
 rmarkdown
 rvest
 shiny
