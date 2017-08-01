@@ -5,6 +5,8 @@ LABEL maintainer "haobibo@gmail.com"
 
 USER root
 
+ENV _JAVA_OPTIONS="-Xss2560k -Xmx2g"
+
 COPY work /tmp/work/
 
 # Install data science enviroment: Python/R packages, and related lib dependencies.
