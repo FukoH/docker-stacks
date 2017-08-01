@@ -46,7 +46,7 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR \
  && apt-get -qq install -t ${DISTRO}-backports openjdk-8-jdk-headless \
  && apt-get autoremove && apt-get clean && rm -rf /var/lib/apt/lists/* \
  && wget -qO- "https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-${ARCH}.sh" -O conda.sh && bash /tmp/conda.sh -f -b -p $CONDA_DIR \
- && ( type java && type R && R CMD javareconf JAVA_CPPFLAGS=-I/usr/lib/jvm/default-java/include || true ) \
+ && ( type java && type R && R CMD javareconf || true ) \
  && echo "=============================> Replace conda packages with pip installed packages and configure conda..." \
  && CONDA_PY_PKGS=`$CONDA_DIR/bin/conda list | grep "py3" | cut -d " " -f 1 | sed "/#/d;/conda/d;/pip/d;/setuptools/d;"` \
  && conda remove --force -yq $CONDA_PY_PKGS \
