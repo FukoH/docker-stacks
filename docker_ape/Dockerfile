@@ -60,6 +60,7 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR \
  && jupyter nbextension     enable  --sys-prefix --py widgetsnbextension \
  && jupyter serverextension enable  --sys-prefix --py jupyterlab \
  && jupyter labextension    install @jupyter-widgets/jupyterlab-manager \
+ && pip install bash_kernel && python -m bash_kernel.install \
  && echo "options(repos=structure(c(CRAN='http://cran.us.r-project.org')))" >> /etc/R/Rprofile.site \
  && R -e "install.packages('devtools',quiet=T,clean=T);" \
  && R -e "devtools::install_github('IRkernel/IRkernel',quiet=T,clean=T);IRkernel::installspec(user=F)" \
