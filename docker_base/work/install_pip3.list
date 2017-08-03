@@ -11,7 +11,7 @@ nltk gensim spacy PyStemmer pyparsing astroid			% NLP, parsing AST
 scikit-image opencv-python								% Computer Vision
 scikit-bio biopython Orange-Bioinformatics				% BioInformatics
 datashape bottleneck blaze dask distributed ipyparallel % Python BigData/parallel interface
-sqlalchemy pandasql pymysql psycopg2					% Data access: OpenSource DB
+openpyxl sqlalchemy pandasql pymysql psycopg2			% Data access: OpenSource DB
 ibm_db ibm_db_sa sqlalchemy_pytds cx_Oracle				% Data access: Commercial DB
 rpy2 py4j dill cloudpickle								% Data access: external systems; Object Serialization
 bokeh seaborn vincent  									% data visualization
