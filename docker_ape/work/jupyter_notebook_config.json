@@ -4,6 +4,7 @@
     "port": 8888,
     "allow_root": true,
     "open_browser": false,
-    "notebook_dir": "/root"
+    "notebook_dir": "/root",
+    "default_url": "/lab"
   }
 }

@@ -55,12 +55,18 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR \
  && conda config --system --set auto_update_conda false  \
  && conda config --system --set show_channel_urls true   \
  && conda clean -ya \
- && echo "=============================> Setup Jupyter: Configurations, Extensions, and Kernels..." \
+ && echo "=============================> Setup Jupyter: Configurations, Enable JupyterLab view..." \
  && mkdir -p $CONDA_DIR/etc/jupyter/ && mv /tmp/work/jupyter_notebook_config.json $CONDA_DIR/etc/jupyter/ \
- && jupyter nbextension     enable  --sys-prefix --py widgetsnbextension \
  && jupyter serverextension enable  --sys-prefix --py jupyterlab \
+ && echo "-----------------------------> Setup Jupyter: Enable ipywidgets extension..." \
+ && jupyter nbextension     enable  --sys-prefix --py widgetsnbextension \
  && jupyter labextension    install @jupyter-widgets/jupyterlab-manager \
- && pip install bash_kernel && python -m bash_kernel.install \
+ && echo "-----------------------------> Setup Jupyter: Install Kernel: Bash..." \
+ && pip install bash_kernel && python -m bash_kernel.install --sys-prefix \
+ && echo "-----------------------------> Setup Jupyter: Install Kernel: NodeJS..." \
+ && JUPYTER_KERNEL_DIR=`python -c "import sys; print(sys.prefix)"`/share/jupyter/kernels \
+ && sudo npm install -g --unsafe-perm jupyter-nodejs && node `npm root -g`/jupyter-nodejs/install.js $JUPYTER_KERNEL_DIR/nodejs \
+ && echo "-----------------------------> Setup Jupyter: Install Kernel: R..." \
  && echo "options(repos=structure(c(CRAN='http://cran.us.r-project.org')))" >> /etc/R/Rprofile.site \
  && R -e "install.packages('devtools',quiet=T,clean=T);" \
  && R -e "devtools::install_github('IRkernel/IRkernel',quiet=T,clean=T);IRkernel::installspec(user=F)" \
@@ -71,10 +77,11 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR \
  && echo "=============================> Clean up and display components version information..." \
  && ( rm -rf /root/.* /tmp/.* /tmp/* || true ) && cd \
  && echo "@ Version of Node/NPM:"  `node -v` `npm -v` \
- && echo "@ Version of Jupyter Notebook/JupyterHub/JupyterLab:" `jupyter notebook --version` `jupyterhub --version` `jupyter lab --version` \
  && echo "@ Version of Java (java/javac):" && java -version && javac -version \
  && echo "@ Version of R and IRkernel:" && R -e "R.version.string; installed.packages()['IRkernel','Version']" \
  && echo "@ Version of Conda & Python:" && conda info && conda list \
+ && echo "@ Version of Jupyter Notebook/JupyterHub/JupyterLab:" `jupyter notebook --version` `jupyterhub --version` `jupyter lab --version` \
+ && echo "@ Kernel information of Jupyter:" `jupyter kernelspec list` \
  && echo "@ Version of image: building finished at:" `date` `uname -a`
 
 ENTRYPOINT ["tini", "--"]
