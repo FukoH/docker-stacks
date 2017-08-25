@@ -30,7 +30,7 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR \
  && echo "deb-src https://deb.nodesource.com/node_8.x ${DISTRO} main"					>> /etc/apt/sources.list.d/nodesource.list \
  && echo "deb     https://cloud.r-project.org/bin/linux/ubuntu ${DISTRO}/"				>  /etc/apt/sources.list.d/R-source.list   \
  && wget -qO- "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"					| apt-key add - \
- && wget -qO- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xAD5F960A256A04AF"	| apt-key add - \
+ && wget -qO- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x51716619E084DAB9"	| apt-key add - \
  && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 \
  && echo "en_US.UTF-8 UTF-8"             >  /etc/locale.gen && locale-gen \
  && mv /root/.bashrc /etc/bash_profile \
