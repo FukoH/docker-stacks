@@ -26,9 +26,6 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR \
  && apt-get -qq install -y --no-install-recommends \
     apt-utils apt-transport-https ca-certificates lsb-release gnupg dirmngr wget locales sudo \
  && DISTRO=$(lsb_release -c -s) && ARCH=$(arch) \
- && echo "deb     http://cdn-fastly.deb.debian.org/debian ${DISTRO} main"					  >  /etc/apt/sources.list \
- && echo "deb     http://cdn-fastly.deb.debian.org/debian ${DISTRO}-backports main"           >> /etc/apt/sources.list \
- && echo "deb     http://cdn-fastly.deb.debian.org/debian-security ${DISTRO}/updates   main"  >> /etc/apt/sources.list \
  && echo "deb     https://deb.nodesource.com/node_8.x ${DISTRO} main"						  >  /etc/apt/sources.list.d/nodesource.list \
  && echo "deb-src https://deb.nodesource.com/node_8.x ${DISTRO} main"						  >> /etc/apt/sources.list.d/nodesource.list \
  && echo "deb     https://cloud.r-project.org/bin/linux/debian ${DISTRO}-cran34/"			  >  /etc/apt/sources.list.d/R-source.list   \
