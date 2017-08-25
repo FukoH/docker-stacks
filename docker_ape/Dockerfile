@@ -1,8 +1,8 @@
 # Distributed under the terms of the Modified BSD License.
 
-# Debian Jessie debootstrap from 2017-02-27 
-# https://github.com/docker-library/official-images/commit/aa5973d0c918c70c035ec0746b8acaec3a4d7777
-FROM debian@sha256:52af198afd8c264f1035206ca66a5c48e602afb32dc912ebf9e9478134601ec4
+# Ubuntu 16.04 (xenial) from 2017-07-23
+# https://github.com/docker-library/official-images/commit/0ea9b38b835ffb656c497783321632ec7f87b60c
+FROM ubuntu@sha256:84c334414e2bfdcae99509a6add166bbb4fa4041dc3fa6af08046a66fed3005f
 
 LABEL maintainer "haobibo@gmail.com"
 
@@ -36,7 +36,7 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR \
  && wget -qO- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xAD5F960A256A04AF"	| apt-key add - \
  && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 \
  && echo "en_US.UTF-8 UTF-8"             >  /etc/locale.gen && locale-gen \
- && mv /tmp/work/bash_profile /etc/bash_profile \
+ && mv /root/.bashrc /etc/bash_profile \
  && echo "[ \$BASH ] && [ -f /etc/bash_profile ] && . /etc/bash_profile"	>> /etc/bash.bashrc \
  && echo "[ \$BASH ] && [ -f /root/.bashrc ]     && . /root/.bashrc"		>> /etc/bash.bashrc \
  && echo "ALL	ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers \
