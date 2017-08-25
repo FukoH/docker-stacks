@@ -26,9 +26,9 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR \
  && apt-get -qq install -y --no-install-recommends \
     apt-utils apt-transport-https ca-certificates lsb-release gnupg dirmngr wget locales sudo \
  && DISTRO=$(lsb_release -c -s) && ARCH=$(arch) \
- && echo "deb     https://deb.nodesource.com/node_8.x ${DISTRO} main"						  >  /etc/apt/sources.list.d/nodesource.list \
- && echo "deb-src https://deb.nodesource.com/node_8.x ${DISTRO} main"						  >> /etc/apt/sources.list.d/nodesource.list \
- && echo "deb     https://cloud.r-project.org/bin/linux/ubuntu ${DISTRO}-cran34/"			  >  /etc/apt/sources.list.d/R-source.list   \
+ && echo "deb     https://deb.nodesource.com/node_8.x ${DISTRO} main"					>  /etc/apt/sources.list.d/nodesource.list \
+ && echo "deb-src https://deb.nodesource.com/node_8.x ${DISTRO} main"					>> /etc/apt/sources.list.d/nodesource.list \
+ && echo "deb     https://cloud.r-project.org/bin/linux/ubuntu ${DISTRO}/"				>  /etc/apt/sources.list.d/R-source.list   \
  && wget -qO- "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"					| apt-key add - \
  && wget -qO- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xAD5F960A256A04AF"	| apt-key add - \
  && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 \
