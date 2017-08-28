@@ -84,4 +84,4 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR \
 ENTRYPOINT ["tini", "--"]
 WORKDIR $HOME_DIR
 EXPOSE 8888
-CMD ["/bin/bash", "/usr/local/bin/start-singleuser.sh"]
+CMD ["/bin/bash", "/usr/local/bin/start-notebook.sh"]
