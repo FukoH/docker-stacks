@@ -47,7 +47,7 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR \
  && echo "=============================> Replace conda packages with pip installed packages and configure conda..." \
  && CONDA_PY_PKGS=`$CONDA_DIR/bin/conda list | grep "py3" | cut -d " " -f 1 | sed "/#/d;/conda/d;/pip/d;/setuptools/d;"` \
  && conda remove --force -yq $CONDA_PY_PKGS \
- && pip install -UIq --pre pip setuptools notebook jupyterhub==0.72 jupyterlab ipywidgets $CONDA_PY_PKGS \
+ && pip install -UIq --pre pip setuptools notebook jupyterhub==0.7.2 jupyterlab ipywidgets $CONDA_PY_PKGS \
  && conda config --system --prepend channels conda-forge \
  && conda config --system --set auto_update_conda false  \
  && conda config --system --set show_channel_urls true   \
