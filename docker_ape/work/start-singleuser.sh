@@ -2,10 +2,8 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 . $DIR/start--pre.sh
 
-notebook_arg=""
+if [[ "$NOTEBOOK_ARGS $@" != *"--ip="* ]]; then
+  NOTEBOOK_ARGS="--ip=0.0.0.0 $NOTEBOOK_ARGS"
+fi
 
-( ver_gte `jupyter notebook --version` 5.0.0 ) && notebook_arg="${notebook_arg} --allow-root"
-[ -n "${USE_SSL:+x}" ] && notebook_arg="${notebook_arg} --NotebookApp.certfile=${NOTEBOOK_PEM_FILE}"
-
-
-exec jupyterhub-singleuser --ip=0.0.0.0 --port=8888 ${notebook_arg} $@
+exec jupyterhub-singleuser --ip=0.0.0.0 --port=8888 ${NOTEBOOK_ARGS} $@
