@@ -2,6 +2,14 @@
 
 This repository includes files and scripts to build Docker Images for Data Science Environment.
 
+## How to use?
+
+Simply pull images and start!
+```
+docker run -it --rm --name=DSX -p 8888:8888 intelligencelab/datascience_base start-notebook.sh
+```
+And then access `http://ip-address-of-server:8888/` in your browser.
+
 ## Docker Images
 
 ### datascience_ape (folder `docker_ape`)
