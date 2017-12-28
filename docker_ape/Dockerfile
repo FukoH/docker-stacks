@@ -1,8 +1,7 @@
 # Distributed under the terms of the Modified BSD License.
 
-# Ubuntu 16.04 (xenial) from 2017-07-23
-# https://github.com/docker-library/official-images/commit/0ea9b38b835ffb656c497783321632ec7f87b60c
-FROM ubuntu@sha256:84c334414e2bfdcae99509a6add166bbb4fa4041dc3fa6af08046a66fed3005f
+# Latest LTS version of Ubuntu (https://store.docker.com/images/ubuntu)
+FROM ubuntu:latest
 
 LABEL maintainer "haobibo@gmail.com"
 
@@ -11,6 +10,7 @@ USER root
 ENV SHELL=/bin/bash \
     DEBIAN_FRONTEND=noninteractive \
     LC_ALL=en_US.UTF-8 \
+    LC_TYPE=en_US.UTF-8 \
     LANG=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8 \
     CONDA_DIR=/opt/conda \
@@ -26,9 +26,9 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR \
  && apt-get -qq install -y --no-install-recommends \
     apt-utils apt-transport-https ca-certificates lsb-release gnupg dirmngr wget locales sudo \
  && DISTRO=$(lsb_release -c -s) && ARCH=$(arch) \
- && echo "deb     https://deb.nodesource.com/node_8.x ${DISTRO} main"					>  /etc/apt/sources.list.d/nodesource.list \
- && echo "deb-src https://deb.nodesource.com/node_8.x ${DISTRO} main"					>> /etc/apt/sources.list.d/nodesource.list \
- && echo "deb     https://cloud.r-project.org/bin/linux/ubuntu ${DISTRO}/"				>  /etc/apt/sources.list.d/R-source.list   \
+ && echo "deb     https://deb.nodesource.com/node_9.x ${DISTRO} main"				  >  /etc/apt/sources.list.d/nodesource.list \
+ && echo "deb-src https://deb.nodesource.com/node_9.x ${DISTRO} main"				  >> /etc/apt/sources.list.d/nodesource.list \
+ && echo "deb     https://cloud.r-project.org/bin/linux/ubuntu ${DISTRO}/"			  >  /etc/apt/sources.list.d/R-source.list   \
  && wget -qO- "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"					| apt-key add - \
  && wget -qO- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x51716619E084DAB9"	| apt-key add - \
  && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 \
@@ -47,7 +47,7 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR \
  && echo "=============================> Replace conda packages with pip installed packages and configure conda..." \
  && CONDA_PY_PKGS=`$CONDA_DIR/bin/conda list | grep "py3" | cut -d " " -f 1 | sed "/#/d;/conda/d;/pip/d;/setuptools/d;"` \
  && conda remove --force -yq $CONDA_PY_PKGS \
- && pip install -UIq --pre pip setuptools notebook jupyterhub==0.7.2 jupyterlab ipywidgets $CONDA_PY_PKGS \
+ && pip install -UIq --pre pip setuptools notebook jupyterhub jupyterlab ipywidgets tornado==4.5.2 $CONDA_PY_PKGS \
  && conda config --system --prepend channels conda-forge \
  && conda config --system --set auto_update_conda false  \
  && conda config --system --set show_channel_urls true   \
@@ -84,4 +84,4 @@ RUN cd /tmp && mkdir -p $HOME_DIR $DATA_DIR \
 ENTRYPOINT ["tini", "--"]
 WORKDIR $HOME_DIR
 EXPOSE 8888
-CMD ["/bin/bash", "/usr/local/bin/start-notebook.sh"]
+CMD ["/bin/bash", "/usr/local/bin/start-singleuser.sh"]
